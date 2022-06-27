@@ -1,0 +1,10 @@
+{
+    "name": "com.masorm.baseview",
+    "version": "0.0.1",
+    "displayName": "BaseView",
+    "unity": "2020.3",
+    "description": "BaseView",
+    "author": {
+        "name": "Mason"
+    }
+}
