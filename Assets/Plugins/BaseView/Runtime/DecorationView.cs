@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BaseView.Plugins.Runtime
 {
-    public class DecorationView : MonoBehaviour
+    public class DecorationView : MonoBehaviour, IDecorationView
     {
         [SerializeField] private List<DecorationTarget> decorationList;
         public List<DecorationTarget> DecorationList => decorationList;
