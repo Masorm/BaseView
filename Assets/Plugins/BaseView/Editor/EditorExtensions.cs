@@ -37,7 +37,7 @@ namespace BaseView.Plugins.Editor
             {
                 if (_addRequest.Status == StatusCode.Success)
                 {
-                    Debug.Log($"Install完了: {_addRequest.Result.version}");
+                    Debug.Log($"Finished Update: {_addRequest.Result.version}");
                 }
                 else if (_addRequest.Status >= StatusCode.Failure)
                 {
