@@ -8,7 +8,6 @@
         "name": "Mason"
     },
     "dependencies": {
-        "com.unity.addressables": "1.19.9",
-        "com.svermeulen.extenject": "https://github.com/svermeulen/Extenject.git?path=UnityProject/Assets/Plugins/Zenject"
+        "com.unity.addressables": "1.19.9"
     }
 }
