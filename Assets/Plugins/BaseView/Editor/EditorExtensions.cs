@@ -8,6 +8,7 @@ using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace BaseView.Plugins.Editor
 {
@@ -15,6 +16,7 @@ namespace BaseView.Plugins.Editor
     {
         private static AddRequest _addRequest;
         private const string PACKAGE_PATH = "git+ssh://git@github.com/Masorm/BaseView.git?path=Assets/Plugins/BaseView";
+        private static string VERSION => $"v{PackageInfo.FindForAssetPath("Packages/com.masorm.baseview").version}";
         
         [MenuItem("Extension/ShowWindow")]
         private static void ShowWindow()
@@ -84,7 +86,7 @@ namespace BaseView.Plugins.Editor
                 // AddressableAssetSettingsDefaultObjectがなければ作成する
                 settings = AddressableAssetSettingsDefaultObject.GetSettings(true);
                 settings.BuildRemoteCatalog = true;
-                settings.OverridePlayerVersion = "v0.0.1";
+                settings.OverridePlayerVersion = VERSION;
             }
             else
             {
