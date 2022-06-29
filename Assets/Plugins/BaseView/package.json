@@ -1,6 +1,6 @@
 {
     "name": "com.masorm.baseview",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "displayName": "BaseView",
     "unity": "2020.3",
     "description": "BaseView",
@@ -8,6 +8,7 @@
         "name": "Mason"
     },
     "dependencies": {
-        "com.unity.addressables": "1.19.9"
+        "com.unity.addressables": "1.19.9",
+        "com.svermeulen.extenject": "9.2.0"
     }
 }
