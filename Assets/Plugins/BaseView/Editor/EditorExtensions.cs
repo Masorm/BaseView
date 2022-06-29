@@ -37,13 +37,6 @@ namespace BaseView.Plugins.Editor
             if (GUILayout.Button("Addressable Settings"))
             {
                 SetAddressable();
-                EditorUtility.RevealInFinder(BUILD_PATH_DEFAULT_VALUE);
-
-                var files = Directory.GetFiles(BUILD_PATH_DEFAULT_VALUE);
-                foreach (var file in files)
-                {
-                    Debug.Log(Path.GetFileName(file));
-                }
             }
 
             GUILayout.Space(20f);
@@ -51,6 +44,14 @@ namespace BaseView.Plugins.Editor
             if (GUILayout.Button("Build Addressable"))
             {
                 StartAddressableBuild();
+                
+                EditorUtility.RevealInFinder(BUILD_PATH_DEFAULT_VALUE);
+
+                var files = Directory.GetFiles(BUILD_PATH_DEFAULT_VALUE);
+                foreach (var file in files)
+                {
+                    Debug.Log(Path.GetFileName(file));
+                }
             }
         }
 
