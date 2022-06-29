@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
@@ -27,6 +28,13 @@ namespace BaseView.Plugins.Editor
             if (GUILayout.Button("Set&Build Addressable"))
             {
                 SetAddressable();
+                EditorUtility.RevealInFinder(BUILD_PATH_DEFAULT_VALUE);
+
+                var files = Directory.GetFiles(BUILD_PATH_DEFAULT_VALUE);
+                foreach (var file in files)
+                {
+                    Debug.Log(Path.GetFileName(file));
+                }
             }
 
             if (GUILayout.Button("Update Package"))
@@ -56,7 +64,7 @@ namespace BaseView.Plugins.Editor
         private static AddressableAssetSettings settings;
         private static AddressableAssetGroup activeSceneGroup;
         private const string DEFAULT_LOCAL_GROUP_NAME = "Default Local Group";
-        private static string ACTIVE_SCENE_NAME => SceneManager.GetActiveScene().name;
+        private const string SCENE_LIST_GROUP_NAME = "SceneList";
 
         private static void SetAddressable()
         {
@@ -73,19 +81,22 @@ namespace BaseView.Plugins.Editor
                 settings = AddressableAssetSettingsDefaultObject.Settings;
             }
 
-            activeSceneGroup = settings.groups.FirstOrDefault(x => x.Name == ACTIVE_SCENE_NAME);
+            activeSceneGroup = settings.groups.FirstOrDefault(x => x.Name == SCENE_LIST_GROUP_NAME);
             if (activeSceneGroup == null)
             {
                 var groupTemplate = settings.GetGroupTemplateObject(0) as AddressableAssetGroupTemplate;
-                activeSceneGroup = settings.CreateGroup(ACTIVE_SCENE_NAME, true, false, false, null, groupTemplate.GetTypes());
+                activeSceneGroup = settings.CreateGroup(SCENE_LIST_GROUP_NAME, true, false, false, null, groupTemplate.GetTypes());
             }
 
             SetProfileSettings(settings);
 
             SetSchemaSettings(activeSceneGroup, settings);
+            SetActiveSceneInGroupEntity(activeSceneGroup, settings);
         
             DeleteDefaultGroup(settings);
             AssetDatabase.SaveAssets();
+        
+            StartAddressableBuild();
         }
 
         private const string BUILD_PATH_VARIABLE_NAME = "CustomBuildPath";
@@ -126,6 +137,27 @@ namespace BaseView.Plugins.Editor
         {
             var defaultGroup = settings.groups.FirstOrDefault(x => x.Name == DEFAULT_LOCAL_GROUP_NAME);
             if (defaultGroup != null) settings.RemoveGroup(defaultGroup);
+        }
+        
+        /// <summary>
+        /// Add ActiveScene in SceneListGroup
+        /// </summary>
+        /// <param name="assetGroup"></param>
+        /// <param name="assetSettings"></param>
+        private static void SetActiveSceneInGroupEntity(AddressableAssetGroup assetGroup, AddressableAssetSettings assetSettings)
+        {
+            var guid = AssetDatabase.GUIDFromAssetPath(SceneManager.GetActiveScene().path).ToString();
+            var assetEntry = assetSettings.CreateOrMoveEntry(guid, assetGroup);
+            assetEntry.SetAddress(Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid)));
+        }
+
+        /// <summary>
+        /// Start Addressable Build
+        /// </summary>
+        private static void StartAddressableBuild()
+        {
+            AddressableAssetSettings.CleanPlayerContent();
+            AddressableAssetSettings.BuildPlayerContent();
         }
     }
 }
