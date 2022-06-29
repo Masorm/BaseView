@@ -15,6 +15,7 @@ namespace BaseView.Plugins.Editor
     {
         private static AddRequest _addRequest;
         private const string PACKAGE_PATH = "git+ssh://git@github.com/Masorm/BaseView.git?path=Assets/Plugins/BaseView";
+        private static string VERSION => $"v{_addRequest.Result.version}";
         
         [MenuItem("Extension/ShowWindow")]
         private static void ShowWindow()
@@ -29,6 +30,7 @@ namespace BaseView.Plugins.Editor
             if (GUILayout.Button("Update Package"))
             {
                 _addRequest = Client.Add(PACKAGE_PATH);
+                Debug.Log(_addRequest.Result.version);
                 EditorApplication.update += Progress;
             }
             
@@ -84,7 +86,7 @@ namespace BaseView.Plugins.Editor
                 // AddressableAssetSettingsDefaultObjectがなければ作成する
                 settings = AddressableAssetSettingsDefaultObject.GetSettings(true);
                 settings.BuildRemoteCatalog = true;
-                settings.OverridePlayerVersion = "v0.0.1";
+                settings.OverridePlayerVersion = VERSION;
             }
             else
             {
