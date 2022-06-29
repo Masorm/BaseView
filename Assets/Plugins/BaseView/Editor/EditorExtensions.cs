@@ -25,7 +25,16 @@ namespace BaseView.Plugins.Editor
 
         private void OnGUI()
         {
-            if (GUILayout.Button("Set&Build Addressable"))
+            EditorGUILayout.HelpBox("Update Package Version Button.", MessageType.Info);
+            if (GUILayout.Button("Update Package"))
+            {
+                _addRequest = Client.Add(PACKAGE_PATH);
+                EditorApplication.update += Progress;
+            }
+            
+            GUILayout.Space(20f);
+            EditorGUILayout.HelpBox("Set up Addressable Group and Profile Button.", MessageType.Info);
+            if (GUILayout.Button("Addressable Settings"))
             {
                 SetAddressable();
                 EditorUtility.RevealInFinder(BUILD_PATH_DEFAULT_VALUE);
@@ -37,10 +46,11 @@ namespace BaseView.Plugins.Editor
                 }
             }
 
-            if (GUILayout.Button("Update Package"))
+            GUILayout.Space(20f);
+            EditorGUILayout.HelpBox("Start Addressable Build Button.", MessageType.Info);
+            if (GUILayout.Button("Build Addressable"))
             {
-                _addRequest = Client.Add(PACKAGE_PATH);
-                EditorApplication.update += Progress;
+                StartAddressableBuild();
             }
         }
 
@@ -95,8 +105,6 @@ namespace BaseView.Plugins.Editor
         
             DeleteDefaultGroup(settings);
             AssetDatabase.SaveAssets();
-        
-            StartAddressableBuild();
         }
 
         private const string BUILD_PATH_VARIABLE_NAME = "CustomBuildPath";
