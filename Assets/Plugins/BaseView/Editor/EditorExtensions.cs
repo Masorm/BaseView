@@ -116,7 +116,7 @@ namespace BaseView.Plugins.Editor
         private const string BUILD_PATH_VARIABLE_NAME = "CustomBuildPath";
         private const string LOAD_PATH_VARIABLE_NAME = "CustomLoadPath";
         private const string BUILD_PATH_DEFAULT_VALUE = "ServerData/WebGL";
-        private const string LOAD_PATH_DEFAULT_VALUE = "{BaseView.Plugins.Editor.LoadPathDefaultValue}";
+        private const string LOAD_PATH_DEFAULT_VALUE = "{BaseSystem.Tools.ApplicationConfig.ApplicationConfigContainer.AddressableUrl}";
     
         /// <summary>
         /// Set ProfileSettings
