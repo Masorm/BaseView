@@ -33,28 +33,82 @@ namespace BaseView.Plugins.Editor
                 _addRequest = Client.Add(PACKAGE_PATH);
                 EditorApplication.update += Progress;
             }
-            
-            GUILayout.Space(20f);
-            EditorGUILayout.HelpBox("Set up Addressable Group and Profile Button.", MessageType.Info);
-            if (GUILayout.Button("Addressable Settings"))
-            {
-                SetAddressable();
-            }
 
-            GUILayout.Space(20f);
-            EditorGUILayout.HelpBox("Start Addressable Build Button.", MessageType.Info);
-            if (GUILayout.Button("Build Addressable"))
+            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.WebGL)
             {
-                StartAddressableBuild();
-                
-                EditorUtility.RevealInFinder(BUILD_PATH_DEFAULT_VALUE);
-
-                var files = Directory.GetFiles(BUILD_PATH_DEFAULT_VALUE);
-                foreach (var file in files)
+                GUILayout.Space(20f);
+                EditorGUILayout.HelpBox("Set up Addressable Group and Profile Button.", MessageType.Info);
+                if (GUILayout.Button("Addressable Settings"))
                 {
-                    var fileInfo = new FileInfo(file);
-                    Debug.Log($"FileName: {Path.GetFileName(file)}\nFileSize: {fileInfo.Length}");
+                    SetAddressable();
                 }
+                
+                GUILayout.Space(20f);
+                EditorGUILayout.HelpBox("Start Addressable Build Button.", MessageType.Info);
+                if (GUILayout.Button("Build Addressable"))
+                {
+                    StartAddressableBuild();
+                
+                    EditorUtility.RevealInFinder(BUILD_PATH_DEFAULT_VALUE);
+
+                    var files = Directory.GetFiles(BUILD_PATH_DEFAULT_VALUE);
+                    foreach (var file in files)
+                    {
+                        var fileInfo = new FileInfo(file);
+                        Debug.Log($"FileName: {Path.GetFileName(file)}\nFileSize: {fileInfo.Length}");
+                    }
+                }
+            }
+            else
+            {
+                GUILayout.Space(20f);
+                EditorGUILayout.HelpBox("We are using WebGL and need to switch platforms to WebGL.", MessageType.Info);
+                if (GUILayout.Button("Switch to WebGL Platform"))
+                {
+                    SwitchToWebGLPlatform();
+                }
+                
+                GUILayout.Space(20f);
+                EditorGUILayout.HelpBox("Sorry, please switch your platform to WebGL. Please press 'Switch to WebGL Platform' above.", MessageType.Error);
+                EditorGUI.BeginDisabledGroup(true);
+                if (GUILayout.Button("Addressable Settings"))
+                {
+                    SetAddressable();
+                }
+                EditorGUI.EndDisabledGroup();
+                
+                GUILayout.Space(20f);
+                EditorGUILayout.HelpBox("Sorry, please switch your platform to WebGL. Please press 'Switch to WebGL Platform' above.", MessageType.Error);
+                EditorGUI.BeginDisabledGroup(true);
+                if (GUILayout.Button("Build Addressable"))
+                {
+                    StartAddressableBuild();
+                
+                    EditorUtility.RevealInFinder(BUILD_PATH_DEFAULT_VALUE);
+
+                    var files = Directory.GetFiles(BUILD_PATH_DEFAULT_VALUE);
+                    foreach (var file in files)
+                    {
+                        var fileInfo = new FileInfo(file);
+                        Debug.Log($"FileName: {Path.GetFileName(file)}\nFileSize: {fileInfo.Length}");
+                    }
+                }
+                EditorGUI.EndDisabledGroup();
+            }
+        }
+
+        private static void SwitchToWebGLPlatform()
+        {
+            var isSuccess = EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
+            if (isSuccess)
+            {
+                EditorUtility.DisplayDialog("Success", "Switch Platform is Success, thank you installing WebGL Platform",
+                    "Yes");
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("Failed", "Switch Platform is Failed, please install WebGL Platform",
+                    "Yes");
             }
         }
 
