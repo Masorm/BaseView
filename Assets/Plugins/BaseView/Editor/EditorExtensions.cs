@@ -52,7 +52,8 @@ namespace BaseView.Plugins.Editor
                 var files = Directory.GetFiles(BUILD_PATH_DEFAULT_VALUE);
                 foreach (var file in files)
                 {
-                    Debug.Log(Path.GetFileName(file));
+                    var fileInfo = new FileInfo(file);
+                    Debug.Log($"FileName: {Path.GetFileName(file)}\nFileSize: {fileInfo.Length}");
                 }
             }
         }
@@ -110,10 +111,12 @@ namespace BaseView.Plugins.Editor
             AssetDatabase.SaveAssets();
         }
 
+        private static string LoadPathDefaultValue = "https://google.com";
+
         private const string BUILD_PATH_VARIABLE_NAME = "CustomBuildPath";
         private const string LOAD_PATH_VARIABLE_NAME = "CustomLoadPath";
         private const string BUILD_PATH_DEFAULT_VALUE = "ServerData/WebGL";
-        private const string LOAD_PATH_DEFAULT_VALUE = "https://qiita.com";
+        private const string LOAD_PATH_DEFAULT_VALUE = "{BaseView.Plugins.Editor.LoadPathDefaultValue}";
     
         /// <summary>
         /// Set ProfileSettings
