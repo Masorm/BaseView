@@ -8,7 +8,6 @@
         "name": "Mason"
     },
     "dependencies": {
-        "com.unity.addressables": "1.19.9",
-        "com.svermeulen.extenject": "0.0.1"
+        "com.unity.addressables": "1.19.9"
     }
 }
